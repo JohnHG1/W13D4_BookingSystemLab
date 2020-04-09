@@ -20,7 +20,7 @@ import java.util.List;
     @Column(name = "starRating")
     private int starRating;
 
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
     public Course(String name, String town, int starRating) {
