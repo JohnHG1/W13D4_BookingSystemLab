@@ -1,20 +1,40 @@
 package com.codeclan.example.Booking.System.models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "customers")
 public class Customer {
 
-    private String name;
-    private int age;
-    private String town;
+
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Long id;
+
+     @Column(name = "name")
+     private String name;
+
+     @Column(name = "age")
+     private int age;
+
+     @Column(name = "town")
+     private String town;
+
+
     private List<Booking> bookings;
+
 
     public Customer(String name, int age, String town) {
         this.name = name;
         this.age = age;
         this.town = town;
         this.bookings = new ArrayList<>();
+    }
+
+    public Customer(){
+
     }
 
     public String getName() {
@@ -48,4 +68,12 @@ public class Customer {
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
     }
+
+     public Long getId() {
+          return id;
+     }
+
+     public void setId(Long id) {
+          this.id = id;
+     }
 }
