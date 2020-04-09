@@ -14,9 +14,12 @@ public class Booking {
     @Column(name = "date")
     private String date;
 
-
+    @ManyToOne
+    @JoinColumn(name = "booking_id", nullable = false)
     private Course course;
 
+    @ManyToOne
+    @JoinColumn(name = "booking_id", nullable = false)
     private Customer customer;
 
 

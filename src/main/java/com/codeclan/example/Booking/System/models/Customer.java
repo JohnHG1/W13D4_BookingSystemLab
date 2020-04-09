@@ -22,7 +22,7 @@ public class Customer {
      @Column(name = "town")
      private String town;
 
-
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
 
