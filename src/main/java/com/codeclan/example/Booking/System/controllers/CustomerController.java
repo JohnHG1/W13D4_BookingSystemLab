@@ -16,21 +16,45 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/customers")
+@RequestMapping("/customers")
 public class CustomerController {
-
     @Autowired
     CustomerRepository customerRepository;
 
     @Autowired
     CourseRepository courseRepository;
 
-    @GetMapping public ResponseEntity<List<Customer>>getAllCustomers(){
+    @GetMapping
+    public ResponseEntity<List<Customer>> getAllCustomers(){
+
         return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/customer/course")
-//    public ResponseEntity<List<Customer>>
+    @GetMapping(value="/{id}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
+        return new ResponseEntity(customerRepository.findById(id), HttpStatus.OK);
+    }
 
+    @PostMapping
+    public ResponseEntity<Customer> postCustomer(@RequestBody Customer customer){
+        customerRepository.save(customer);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+    }
 
+    @PutMapping(value="/{id}")
+    public ResponseEntity<Customer> putCustomer(@RequestBody Customer customer){
+        customerRepository.save(customer);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value="/{id}")
+    public ResponseEntity<Long> deleteCustomer(@PathVariable Long id){
+        customerRepository.deleteById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{customerId}/courses")
+    public ResponseEntity<List<Course>> getCoursesForCustomer(@PathVariable Long customerId) {
+        return new ResponseEntity<>(courseRepository.findAllByBookingsCustomerId(customerId), HttpStatus.OK);
+    }
 }

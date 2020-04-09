@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "courses") public class Course {
+@Table(name = "courses")
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,24 +20,30 @@ import java.util.List;
     @Column(name = "town")
     private String town;
 
-    @Column(name = "starRating")
-    private int starRating;
-
     @JsonBackReference
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-    public Course(String name, String town, int starRating) {
+    @Column(name = "star_rating")
+    private int starRating;
+
+    public Course(String name, String town, int rating) {
         this.name = name;
-        this.town = town;
-        this.starRating = starRating;
-        this.bookings = new ArrayList<>();
+        this.town = town.toLowerCase();
+        this.bookings = new ArrayList<Booking>();
+        this.starRating = rating;
     }
 
-    public Course(){
-
+    public Course() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -51,15 +58,7 @@ import java.util.List;
     }
 
     public void setTown(String town) {
-        this.town = town;
-    }
-
-    public int getStarRating() {
-        return starRating;
-    }
-
-    public void setStarRating(int starRating) {
-        this.starRating = starRating;
+        this.town = town.toLowerCase();
     }
 
     public List<Booking> getBookings() {
@@ -70,11 +69,15 @@ import java.util.List;
         this.bookings = bookings;
     }
 
-    public Long getId() {
-        return id;
+    public void addBooking(Booking booking){
+        bookings.add(booking);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public int getStarRating() {
+        return starRating;
+    }
+
+    public void setStarRating(int starRating) {
+        this.starRating = starRating;
     }
 }

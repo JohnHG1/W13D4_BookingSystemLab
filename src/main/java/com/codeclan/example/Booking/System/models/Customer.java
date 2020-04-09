@@ -10,35 +10,39 @@ import java.util.List;
 @Table(name = "customers")
 public class Customer {
 
-
     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-     @Column(name = "name")
-     private String name;
+    @Column(name = "name")
+    private String name;
 
-     @Column(name = "age")
-     private int age;
+    @Column(name = "town")
+    private String town;
 
-     @Column(name = "town")
-     private String town;
-
+    @Column(name = "age")
+    private int age;
 
     @JsonBackReference
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-
-    public Customer(String name, int age, String town) {
+    public Customer(String name, String town, int age) {
         this.name = name;
+        this.town = town.toLowerCase();
+        this.bookings = new ArrayList<Booking>();
         this.age = age;
-        this.town = town;
-        this.bookings = new ArrayList<>();
     }
 
-    public Customer(){
+    public Customer() {
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,24 +53,12 @@ public class Customer {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getTown() {
         return town;
     }
 
     public void setTown(String town) {
-        this.town = town;
-    }
-
-    public void addBooking(Booking booking) {
-        this.bookings.add(booking);
+        this.town = town.toLowerCase();
     }
 
     public List<Booking> getBookings() {
@@ -77,11 +69,15 @@ public class Customer {
         this.bookings = bookings;
     }
 
-     public Long getId() {
-          return id;
-     }
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
+    }
 
-     public void setId(Long id) {
-          this.id = id;
-     }
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }
